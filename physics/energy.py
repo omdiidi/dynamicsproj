@@ -237,7 +237,7 @@ def compute_waterfall(ball: BallProperties, R_loop: float, theta_deg: float,
         "step": 4,
         "name": "Add rolling resistance",
         "principle": (f"C_rr = {C_rr:.3f}. Ramp loss = C_rr*mg*h/tan(theta). "
-                      f"Loop loss = C_rr*mg*2*(2*pi*R_c) with N_avg ~ 2mg."),
+                      f"Loop loss = C_rr*mg*3*(2*pi*R_c) with N_avg ~ 3mg."),
         "formula": "W_rr = C_rr * N * ds (integrated over path)",
         "h_m": h4,
         "h_in": h4 * METERS_TO_INCHES,
