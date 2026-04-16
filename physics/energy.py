@@ -84,9 +84,10 @@ def two_rail_height(ball: BallProperties, R_loop: float, theta_deg: float,
     KE_top = 0.5 * ball.mass_kg * v_top_sq * KE_factor
 
     # Rolling resistance in the loop
-    # N_avg over a full loop ~ 2*m*g for a ball barely completing
+    # N_avg over a full loop ~ 3*m*g for a ball barely completing
+    # (centripetal term averages to 2mg, gravity component averages to mg)
     # Path length = 2*pi*R_c
-    W_loop_rr = C_rr * ball.mass_kg * G * 2.0 * (2 * np.pi * R_c)
+    W_loop_rr = C_rr * ball.mass_kg * G * 3.0 * (2 * np.pi * R_c)
 
     # Full energy balance from release to loop top:
     # m*g*[h + h_off*cos(theta)] = m*g*[2R_loop - h_off] + KE_top + W_ramp + W_loop + W_transition
@@ -226,8 +227,10 @@ def compute_waterfall(ball: BallProperties, R_loop: float, theta_deg: float,
     })
 
     # Step 4: Add rolling resistance
-    W_loop_rr = C_rr * ball.mass_kg * G * 2.0 * (2 * np.pi * R_c)
-    rhs4 = ball.mass_kg * G * h3 + W_loop_rr
+    # Solve from scratch with rolling resistance (same structure as two_rail_height)
+    W_loop_rr = C_rr * ball.mass_kg * G * 3.0 * (2 * np.pi * R_c)
+    rhs4 = (ball.mass_kg * G * (2 * R_loop - h_off * (1 + np.cos(theta)))
+            + 0.5 * ball.mass_kg * v_top_sq * KE_factor + W_loop_rr)
     lhs4 = ball.mass_kg * G * (1 - C_rr / np.tan(theta))
     h4 = rhs4 / lhs4 if lhs4 > 0 else float('inf')
     steps.append({

@@ -127,12 +127,12 @@ def simulate(ball_radius: float, ball_mass: float, R_loop: float,
     ball_leaves_track.terminal = True
     ball_leaves_track.direction = -1
 
-    # Event: ball stalls (v=0) in loop
+    # Event: ball stalls (v near 0) in loop
     def ball_stalls(t, state):
         s, v = state
         if s < L_ramp:
             return 1.0
-        return v
+        return v - 1e-8  # detect near-zero velocity (above the 1e-10 clamp)
 
     ball_stalls.terminal = True
     ball_stalls.direction = -1

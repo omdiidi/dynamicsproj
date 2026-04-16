@@ -137,18 +137,24 @@ R_loop_m = R_loop_effective_in * INCHES_TO_METERS
 results = compute_all_predictions(R_loop_effective_in, theta_deg, BALLS,
                                    C_rr_overrides, f_transition, safety_margin_in)
 
+# Check for infinite predictions (low angle + high C_rr)
+for bname, pred in results["balls"].items():
+    if pred["h_min_m"] == float('inf'):
+        st.warning(f"{bname}: No finite solution at this ramp angle and C_rr. Increase angle or decrease C_rr.")
+
 # ============================================================
 # Section 1: Competition Mode
 # ============================================================
 st.header("Predictions")
 
-col1, col2, col3 = st.columns(3)
-for col, bname in zip([col1, col2, col3], ["Steel", "Plastic", "Rubber"]):
+ball_names = list(BALLS.keys())
+cols = st.columns(len(ball_names))
+for col, bname in zip(cols, ball_names):
     pred = results["balls"][bname]
     col.metric(label=f"{bname}", value=f'{pred["h_predicted_in"]:.1f} in',
                delta=f'{pred["h_min_in"] - results["ref_rolling_in"]:+.2f} vs rolling')
 
-total = sum(results["balls"][n]["h_predicted_in"] for n in ["Steel", "Plastic", "Rubber"])
+total = sum(results["balls"][n]["h_predicted_in"] for n in ball_names)
 st.info(f"Competition Score (if all succeed): **{total:.1f}**  |  "
         f"Ref Block: {results['ref_block_in']:.1f} in  |  Ref Rolling: {results['ref_rolling_in']:.1f} in")
 
@@ -204,6 +210,7 @@ ax_wf.set_title(f"Prediction Waterfall — {waterfall_ball} Ball", fontweight=60
 ax_wf.grid(axis='y', alpha=0.2)
 ax_wf.spines['top'].set_visible(False)
 ax_wf.spines['right'].set_visible(False)
+fig_wf.tight_layout()
 st.pyplot(fig_wf)
 plt.close(fig_wf)
 
@@ -278,6 +285,7 @@ ax_track.set_ylabel('y (mm)')
 ax_track.grid(True, alpha=0.15)
 ax_track.spines['top'].set_visible(False)
 ax_track.spines['right'].set_visible(False)
+fig_track.tight_layout()
 st.pyplot(fig_track)
 plt.close(fig_track)
 
@@ -288,9 +296,7 @@ st.header("Energy Breakdown")
 fig_energy, ax_energy = plt.subplots(figsize=(10, 5))
 fig_energy.patch.set_facecolor('#F5F5F7')
 ax_energy.set_facecolor('#F5F5F7')
-ball_names_list = ["Steel", "Plastic", "Rubber"]
-
-for i, bname in enumerate(ball_names_list):
+for i, bname in enumerate(ball_names):
     pred = results["balls"][bname]
     ball_geom = compute_contact_geometry(BALLS[bname].radius_m)
     m = BALLS[bname].mass_kg
@@ -314,12 +320,13 @@ for i, bname in enumerate(ball_names_list):
                       label=label if i == 0 else "", color=color, alpha=0.85)
         bottom_val += pct
 
-ax_energy.set_xticks(range(3))
-ax_energy.set_xticklabels(ball_names_list)
+ax_energy.set_xticks(range(len(ball_names)))
+ax_energy.set_xticklabels(ball_names)
 ax_energy.set_ylabel("% of Release PE")
 ax_energy.legend(loc='upper right')
 ax_energy.spines['top'].set_visible(False)
 ax_energy.spines['right'].set_visible(False)
+fig_energy.tight_layout()
 st.pyplot(fig_energy)
 plt.close(fig_energy)
 
@@ -376,6 +383,7 @@ if st.button("Run Simulation", type="primary"):
             ax.spines['top'].set_visible(False)
             ax.spines['right'].set_visible(False)
 
+        fig_sim.tight_layout()
         st.pyplot(fig_sim)
         plt.close(fig_sim)
 
@@ -421,7 +429,7 @@ for theta_val in [20, 50]:
     bh = mr["ref_block_in"]
     rh = mr["ref_rolling_in"]
     row = {"Angle": f"{theta_val} deg", "Block": f"{bh:.2f}", "Rolling": f"{rh:.2f}"}
-    for bname in ["Steel", "Plastic", "Rubber"]:
+    for bname in ball_names:
         h = mr["balls"][bname]["h_min_in"]
         row[bname] = f"{h:.2f}"
         row[f"{bname} vs Roll"] = f"{h - rh:+.2f}"
@@ -436,7 +444,7 @@ st.header("Sensitivity Analysis")
 st.caption("Parameter uncertainty impact on predictions")
 
 sens_rows = []
-for bname in ["Steel", "Plastic", "Rubber"]:
+for bname in ball_names:
     base = results["balls"][bname]["h_min_in"]
     crr_base = C_rr_overrides[bname]
 
