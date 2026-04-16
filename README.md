@@ -60,6 +60,23 @@ The prediction builds incrementally through 6 steps:
 Validates the analytical prediction by numerically integrating the equations
 of motion with event detection for track departure, stalling, and loop completion.
 
+## Connection to ME 2030 Course Material
+
+The model uses these equations directly from the Dynamics Vocabulary sheet:
+
+| Class Equation | Application in Model |
+|---|---|
+| T = 1/2 mv^2_G + 1/2 I_G omega^2 | Total KE of rolling sphere (modified for two-rail r_eff) |
+| a_n = v^2/rho | Centripetal condition at loop top (rho = R_c) |
+| F = ma_G | Newton's 2nd law, radial direction in loop |
+| Sum M_G = I_G alpha | Torque equation derives rolling constraint |
+| I = integral r^2 dm | I_G = 2/5 mR^2 for solid sphere |
+| U = integral F . dr | Work done by rolling resistance along track |
+| T1 + V1 + U_NC = T2 + V2 | Energy balance with non-conservative losses |
+
+Each equation is rendered in LaTeX in the app's "Dynamics Principles Applied" section
+and in the waterfall derivation expander.
+
 ## References
 
 - Bachman (1985), "Sphere rolling down a grooved track," Am. J. Phys. 53(8), 765

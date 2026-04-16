@@ -215,14 +215,47 @@ st.pyplot(fig_wf)
 plt.close(fig_wf)
 
 # Expandable derivation details
-with st.expander("Full derivation details (for appendix)"):
+with st.expander("Full derivation details (for appendix)", expanded=False):
     for s in steps:
-        st.markdown(f"**Step {s['step']}: {s['name']}**")
-        st.markdown(f"- Formula: `{s['formula']}`")
-        st.markdown(f"- Principle: {s['principle']}")
-        st.markdown(f"- Source: {s['source']}")
-        st.markdown(f"- Result: **{s['h_in']:.3f} in** (delta: {s['delta_in']:+.3f} in)")
-        st.markdown("---")
+        st.markdown(f"### Step {s['step']}: {s['name']}")
+        st.latex(s.get("latex", ""))
+        st.caption(f"{s['principle']}")
+        st.markdown(f"**Result:** {s['h_in']:.3f} in  ({s['delta_in']:+.3f} in)  —  *{s['source']}*")
+        st.divider()
+
+# ============================================================
+# Section 2b: Dynamics Principles Reference (class notation)
+# ============================================================
+st.header("Dynamics Principles Applied")
+st.caption("Equations from ME 2030 Dynamics Vocabulary mapped to this model")
+
+princ_col1, princ_col2 = st.columns(2)
+
+with princ_col1:
+    st.markdown("**Work-Energy Theorem**")
+    st.latex(r"T_1 + V_1 + U_{NC} = T_2 + V_2")
+    st.caption("Energy conservation with non-conservative work (rolling resistance)")
+
+    st.markdown("**Kinetic Energy (Rolling Rigid Body)**")
+    st.latex(r"T = \frac{1}{2}mv_G^2 + \frac{1}{2}I_G\omega^2")
+    st.caption("Total KE = translational + rotational")
+
+    st.markdown("**Moment of Inertia (Solid Sphere)**")
+    st.latex(r"I_G = \frac{2}{5}mR^2")
+    st.caption("Used with rolling constraint: omega = v / r_eff")
+
+with princ_col2:
+    st.markdown("**Newton's 2nd Law (Radial, Loop Top)**")
+    st.latex(r"\sum F_n = ma_n \quad\Rightarrow\quad N + mg = \frac{mv^2}{R_c}")
+    st.caption("Setting N=0 gives critical speed: v² = gR_c")
+
+    st.markdown("**Normal-Tangential Acceleration**")
+    st.latex(r"a_n = \frac{v^2}{\rho}, \qquad a_t = \dot{v}")
+    st.caption("Path coordinates — rho = R_c in the loop")
+
+    st.markdown("**Work of Non-Conservative Forces**")
+    st.latex(r"U_{NC} = \int \mathbf{F} \cdot d\mathbf{r} = C_{rr}\!\int N\, ds")
+    st.caption("Rolling resistance dissipates energy along the track path")
 
 # ============================================================
 # Section 3: Two-Rail Geometry
@@ -371,6 +404,9 @@ if st.button("Run Simulation", type="primary"):
         ax1.axvline(x=sim_result["L_ramp"] * 1000, color='#8E8E93', ls='--', lw=0.8,
                      label='Loop entry')
         ax1.set_ylabel("Speed (m/s)")
+        ax1.text(0.98, 0.95, r'$T = \frac{1}{2}mv^2 \cdot \mathrm{KE}_{\mathrm{factor}}$',
+                 transform=ax1.transAxes, ha='right', va='top', fontsize=9,
+                 color='#6E6E73', style='italic')
         ax1.legend(fontsize=8)
 
         ax2.plot(s_mm, sim_result["N"] * 1000, color=ball.color, lw=1.5)
@@ -378,6 +414,9 @@ if st.button("Run Simulation", type="primary"):
         ax2.axvline(x=sim_result["L_ramp"] * 1000, color='#8E8E93', ls='--', lw=0.8)
         ax2.set_ylabel("Normal Force (mN)")
         ax2.set_xlabel("Arc length (mm)")
+        ax2.text(0.98, 0.95, r'$N = \frac{mv^2}{R_c} + mg\cos\phi$',
+                 transform=ax2.transAxes, ha='right', va='top', fontsize=9,
+                 color='#6E6E73', style='italic')
 
         for ax in [ax1, ax2]:
             ax.spines['top'].set_visible(False)
