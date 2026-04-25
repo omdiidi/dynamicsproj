@@ -42,7 +42,7 @@ $$r_{eff} = \frac{R \cdot h_{offset}}{R + r_{rail}}$$
 
 The rolling constraint becomes $\omega = v / r_{eff}$ instead of $v / R$, so kinetic energy is:
 
-$$T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\!\left(\dfrac{R}{r_{eff}}\right)^{\!2}\right]$$
+$$T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\left(\dfrac{R}{r_{eff}}\right)^{2}\right]$$
 
 **Source:** Bachman (1985), *Am. J. Phys.* 53(8), 765.
 
@@ -370,7 +370,7 @@ $$T_1 + V_1 = T_2 + V_2$$
 
 With $T_1 = 0$ (released from rest), $V_1 = mgh$, $V_2 = mg(2R)$, $T_2 = \tfrac{1}{2}mv_{top}^2$:
 
-$$mgh = mg(2R) + \tfrac{1}{2}mv_{top}^2 \tag{1}$$
+$$mgh = mg(2R) + \tfrac{1}{2}mv_{top}^2$$
 
 **Step 2 — Apply Newton's 2nd Law (radial) at top of loop:**
 
@@ -380,7 +380,7 @@ $$\sum F_n = ma_n \quad\Rightarrow\quad N + mg = \frac{mv_{top}^2}{R}$$
 
 **Step 3 — Apply critical condition $N = 0$:**
 
-$$mg = \frac{mv_{top}^2}{R} \quad\Rightarrow\quad v_{top}^2 = gR \tag{2}$$
+$$mg = \frac{mv_{top}^2}{R} \quad\Rightarrow\quad v_{top}^2 = gR$$
 
 **Step 4 — Substitute (2) into (1) and solve:**
 
@@ -416,15 +416,15 @@ By the parallel axis theorem, $I_{IC} = I_G + mr^2$. For a solid sphere, $I_G = 
 
 $$I_{IC} = \tfrac{2}{5}mr^2 + mr^2 = \tfrac{7}{5}mr^2$$
 
-$$T = \tfrac{1}{2}\!\left(\tfrac{7}{5}mr^2\right)\!\omega^2 = \tfrac{7}{10}m(\omega r)^2 = \tfrac{7}{10}mv^2 \tag{3}$$
+$$T = \tfrac{1}{2}\left(\tfrac{7}{5}mr^2\right)\omega^2 = \tfrac{7}{10}m(\omega r)^2 = \tfrac{7}{10}mv^2$$
 
 **Step 4 — Energy conservation:**
 
-$$mgh = mg(2R) + \tfrac{7}{10}mv_{top}^2 \tag{4}$$
+$$mgh = mg(2R) + \tfrac{7}{10}mv_{top}^2$$
 
 **Step 5 — Critical condition (radial force balance is unchanged by rotation):**
 
-$$v_{top}^2 = gR \tag{5}$$
+$$v_{top}^2 = gR$$
 
 **Step 6 — Substitute (5) into (4) and solve:**
 
@@ -470,11 +470,11 @@ From the equation sheet, $T = \tfrac{1}{2}I_{IC}\omega^2$. By the parallel axis 
 
 $$I_{IC} = \tfrac{2}{5}mR^2 + m r_{eff}^2$$
 
-$$T = \tfrac{1}{2}\!\left[\tfrac{2}{5}mR^2 + m r_{eff}^2\right]\!\omega^2$$
+$$T = \tfrac{1}{2}\left[\tfrac{2}{5}mR^2 + m r_{eff}^2\right]\omega^2$$
 
 Substituting $\omega = v/r_{eff}$:
 
-$$\boxed{T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\!\left(\frac{R}{r_{eff}}\right)^{\!2}\right] = \tfrac{1}{2}mv^2 \cdot KE_{factor}}$$
+$$\boxed{T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\left(\frac{R}{r_{eff}}\right)^{2}\right] = \tfrac{1}{2}mv^2 \cdot KE_{factor}}$$
 
 For our balls: $KE_{factor}$ ranges from 1.89 (rubber) to 2.24 (steel), versus 1.4 on a flat surface.
 
@@ -523,11 +523,16 @@ $$mg\,[h_{release} + h_{offset}\cos\theta] = mg[2R_{loop} - h_{offset}] + \tfrac
 
 Move all $h_{release}$-containing terms to the left:
 
-$$mg\,h_{release}\left[1 - \frac{C_{rr}}{\tan\theta} - f_{trans}\right] = mg\!\left[2R_{loop} - h_{offset}(1+\cos\theta)\right] + \tfrac{1}{2}m(gR_c)KE_{factor} + W_{loop} - f_{trans}\,mg\,h_{offset}(1-\cos\theta)$$
+$$\begin{aligned}
+mg\,h_{release}&\left[1 - \frac{C_{rr}}{\tan\theta} - f_{trans}\right] \\
+&= mg\left[2R_{loop} - h_{offset}(1+\cos\theta)\right] \\
+&\quad + \tfrac{1}{2}m(gR_c)KE_{factor} + W_{loop} \\
+&\quad - f_{trans}\,mg\,h_{offset}(1-\cos\theta)
+\end{aligned}$$
 
 **Step 6 — Solve algebraically:**
 
-$$\boxed{h_{release} = \frac{2R_{loop} - h_{offset}(1+\cos\theta) + \tfrac{R_c}{2}KE_{factor} + \tfrac{2\pi C_{rr} R_c \cdot 3}{1} - f_{trans}\,h_{offset}(1-\cos\theta)}{1 - \dfrac{C_{rr}}{\tan\theta} - f_{trans}}}$$
+$$\boxed{h_{release} = \frac{2R_{loop} - h_{offset}(1+\cos\theta) + \tfrac{R_c}{2}KE_{factor} + 6\pi C_{rr} R_c - f_{trans}\,h_{offset}(1-\cos\theta)}{1 - \dfrac{C_{rr}}{\tan\theta} - f_{trans}}}$$
 
 Implementation: `physics/energy.py:two_rail_height` (lines 47–126).
 
@@ -557,11 +562,11 @@ $$a_G = \frac{mg\sin\theta \cdot r_{eff}^2}{I_{IC}} = \frac{g\sin\theta}{1 + \tf
 
 From Step 1:
 
-$$f_s = mg\sin\theta - ma_G = mg\sin\theta\!\left(\frac{KE_{factor}-1}{KE_{factor}}\right)$$
+$$f_s = mg\sin\theta - ma_G = mg\sin\theta\left(\frac{KE_{factor}-1}{KE_{factor}}\right)$$
 
 **Step 4 — Apply no-slip condition $f_s \leq \mu_s N$ where $N = mg\cos\theta$:**
 
-$$\boxed{\mu_s \geq \tan\theta \cdot \frac{KE_{factor} - 1}{KE_{factor}} \quad\Leftrightarrow\quad \theta_{crit} = \arctan\!\left(\mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}\right)}$$
+$$\boxed{\mu_s \geq \tan\theta \cdot \frac{KE_{factor} - 1}{KE_{factor}} \quad\Leftrightarrow\quad \theta_{crit} = \arctan\left(\mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}\right)}$$
 
 For comparison, a flat-surface rolling sphere has $KE_{factor} = 7/5$, giving the textbook result $\mu_s \geq \tfrac{2}{7}\tan\theta$ with $\theta_{crit} \approx 37°$ at $\mu_s = 0.213$. Our two-rail geometry has a higher $KE_{factor}$, which **lowers** the critical angle.
 

@@ -43,7 +43,7 @@ $$T_1 + V_1 = T_2 + V_2$$
 
 With $T_1 = 0$ (released from rest), $V_1 = mgh$, $V_2 = mg(2R)$, $T_2 = \tfrac{1}{2}mv_{top}^2$:
 
-$$mgh = mg(2R) + \tfrac{1}{2}mv_{top}^2 \tag{A.1}$$
+$$mgh = mg(2R) + \tfrac{1}{2}mv_{top}^2$$
 
 **Step 2 — Apply Newton's 2nd Law (radial) at top of loop.** From the equation sheet, $a_n = v^2/\rho$. At the top, both weight and normal force point toward the loop center:
 
@@ -51,7 +51,7 @@ $$\sum F_n = ma_n \quad\Rightarrow\quad N + mg = \frac{mv_{top}^2}{R}$$
 
 **Step 3 — Apply critical condition $N = 0$:**
 
-$$v_{top}^2 = gR \tag{A.2}$$
+$$v_{top}^2 = gR$$
 
 **Step 4 — Substitute (A.2) into (A.1) and solve:**
 
@@ -81,15 +81,15 @@ By the parallel axis theorem (equation sheet: $I_A = I_G + md^2$), with $I_G = \
 
 $$I_{IC} = I_G + mr^2 = \tfrac{2}{5}mr^2 + mr^2 = \tfrac{7}{5}mr^2$$
 
-$$T = \tfrac{1}{2}\!\left(\tfrac{7}{5}mr^2\right)\!\omega^2 = \tfrac{7}{10}m(\omega r)^2 = \tfrac{7}{10}mv^2 \tag{A.3}$$
+$$T = \tfrac{1}{2}\left(\tfrac{7}{5}mr^2\right)\omega^2 = \tfrac{7}{10}m(\omega r)^2 = \tfrac{7}{10}mv^2$$
 
 **Step 4 — Energy conservation:**
 
-$$mgh = mg(2R) + \tfrac{7}{10}mv_{top}^2 \tag{A.4}$$
+$$mgh = mg(2R) + \tfrac{7}{10}mv_{top}^2$$
 
 **Step 5 — Critical condition (radial force balance unchanged by rotation):**
 
-$$v_{top}^2 = gR \tag{A.5}$$
+$$v_{top}^2 = gR$$
 
 **Step 6 — Substitute (A.5) into (A.4) and solve:**
 
@@ -133,9 +133,9 @@ $$I_{IC} = I_G + m r_{eff}^2 = \tfrac{2}{5}mR^2 + m r_{eff}^2$$
 
 Substituting $\omega = v/r_{eff}$:
 
-$$T = \tfrac{1}{2}\!\left[\tfrac{2}{5}mR^2 + m r_{eff}^2\right]\!\!\left(\frac{v}{r_{eff}}\right)^{\!\!2}$$
+$$T = \tfrac{1}{2}\left[\tfrac{2}{5}mR^2 + m r_{eff}^2\right]\left(\frac{v}{r_{eff}}\right)^{2}$$
 
-$$\boxed{T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\!\left(\frac{R}{r_{eff}}\right)^{\!2}\right] = \tfrac{1}{2}mv^2 \cdot KE_{factor}}$$
+$$\boxed{T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\left(\frac{R}{r_{eff}}\right)^{2}\right] = \tfrac{1}{2}mv^2 \cdot KE_{factor}}$$
 
 **Numerical values for our balls:**
 
@@ -186,7 +186,12 @@ $$mg\,[h_{release} + h_{offset}\cos\theta] = mg[2R_{loop} - h_{offset}] + \tfrac
 
 **Step 5 — Collect $h_{release}$ terms** (it appears on both sides through $W_{ramp}$ and $W_{trans}$):
 
-$$mg\,h_{release}\!\left[1 - \frac{C_{rr}}{\tan\theta} - f_{trans}\right] = mg\!\left[2R_{loop} - h_{offset}(1+\cos\theta)\right] + \tfrac{1}{2}m(gR_c)KE_{factor} + W_{loop} - f_{trans}\,mg\,h_{offset}(1-\cos\theta)$$
+$$\begin{aligned}
+mg\,h_{release}&\left[1 - \frac{C_{rr}}{\tan\theta} - f_{trans}\right] \\
+&= mg\left[2R_{loop} - h_{offset}(1+\cos\theta)\right] \\
+&\quad + \tfrac{1}{2}m(gR_c)KE_{factor} + W_{loop} \\
+&\quad - f_{trans}\,mg\,h_{offset}(1-\cos\theta)
+\end{aligned}$$
 
 **Step 6 — Solve algebraically:**
 
@@ -233,11 +238,11 @@ $$a_G = \frac{g\sin\theta}{1 + \tfrac{2}{5}(R/r_{eff})^2} = \frac{g\sin\theta}{K
 
 **Step 3 — Solve for required static friction.**
 
-$$f_s = mg\sin\theta - ma_G = mg\sin\theta\!\left(\frac{KE_{factor}-1}{KE_{factor}}\right)$$
+$$f_s = mg\sin\theta - ma_G = mg\sin\theta\left(\frac{KE_{factor}-1}{KE_{factor}}\right)$$
 
 **Step 4 — Apply no-slip condition $f_s \leq \mu_s N$ where $N = mg\cos\theta$:**
 
-$$\boxed{\mu_s \geq \tan\theta \cdot \frac{KE_{factor} - 1}{KE_{factor}} \quad\Leftrightarrow\quad \theta_{crit} = \arctan\!\left(\mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}\right)}$$
+$$\boxed{\mu_s \geq \tan\theta \cdot \frac{KE_{factor} - 1}{KE_{factor}} \quad\Leftrightarrow\quad \theta_{crit} = \arctan\left(\mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}\right)}$$
 
 For comparison, a flat-surface rolling sphere has $KE_{factor} = 7/5$, giving the textbook $\mu_s \geq \tfrac{2}{7}\tan\theta$. Our two-rail geometry has a **higher** $KE_{factor}$, which **lowers** the critical angle.
 
