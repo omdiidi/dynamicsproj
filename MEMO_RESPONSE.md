@@ -385,29 +385,41 @@ $$\boxed{h_{min} = \tfrac{5}{2}R}$$
 
 ### 4B. Sphere Rolling Without Slipping on Flat Surface (Reference Case 2)
 
-**Setup:** Solid sphere of mass $m$, radius $r$ rolling without slipping. Loop radius $R$. Treat ball center as following the loop ($R \gg r$).
+**Setup:** Solid sphere of mass $m$, radius $r$ rolling without slipping. Loop radius $R$.
 
-**Step 1 — Total kinetic energy includes rotation:**
+**Step 1 — Identify the instant center (IC).**
 
-$$T = \tfrac{1}{2}mv_G^2 + \tfrac{1}{2}I_G\omega^2$$
+For rolling without slipping, the contact point has zero velocity. By definition, this is the **instant center of zero velocity**. The sphere center $G$ is at distance $r$ from the IC.
 
-For a solid sphere $I_G = \tfrac{2}{5}mr^2$. Rolling constraint on a flat surface: $\omega = v/r$, so:
+**Step 2 — Rolling constraint from IC kinematics.**
 
-$$T = \tfrac{1}{2}mv^2 + \tfrac{1}{2}\!\left(\tfrac{2}{5}mr^2\right)\!\left(\tfrac{v}{r}\right)^{\!2} = \tfrac{1}{2}mv^2 + \tfrac{1}{5}mv^2 = \tfrac{7}{10}mv^2 \tag{3}$$
+Using $v_A = \omega \times r_A$ for a body with a fixed point (the IC):
 
-**Step 2 — Energy conservation:**
+$$v_G = \omega r$$
+
+**Step 3 — Kinetic energy using IC form.**
+
+From the equation sheet:
+
+$$T = \tfrac{1}{2}I_{IC}\omega^2$$
+
+By the parallel axis theorem, $I_{IC} = I_G + mr^2$. For a solid sphere, $I_G = \tfrac{2}{5}mr^2$:
+
+$$I_{IC} = \tfrac{2}{5}mr^2 + mr^2 = \tfrac{7}{5}mr^2$$
+
+$$T = \tfrac{1}{2}\!\left(\tfrac{7}{5}mr^2\right)\!\omega^2 = \tfrac{7}{10}m(\omega r)^2 = \tfrac{7}{10}mv^2 \tag{3}$$
+
+**Step 4 — Energy conservation:**
 
 $$mgh = mg(2R) + \tfrac{7}{10}mv_{top}^2 \tag{4}$$
 
-**Step 3 — Critical condition (radial force balance is unchanged by rotation):**
+**Step 5 — Critical condition (radial force balance is unchanged by rotation):**
 
 $$v_{top}^2 = gR \tag{5}$$
 
-**Step 4 — Substitute (5) into (4) and solve:**
+**Step 6 — Substitute (5) into (4) and solve:**
 
 $$mgh = 2mgR + \tfrac{7}{10}m(gR)$$
-
-$$h = 2R + \tfrac{7}{10}R$$
 
 $$\boxed{h_{min} = \tfrac{27}{10}R}$$
 
@@ -417,43 +429,41 @@ $$\boxed{h_{min} = \tfrac{27}{10}R}$$
 
 **Setup:** Solid sphere of radius $R$ rests on two parallel cylindrical rails, each of radius $r_{rail}$, with center-to-center spacing $s$.
 
-**Step 1 — Cross-section geometry.** Looking along the track direction, the rail centers lie a distance $s/2$ on either side of the symmetry axis. The sphere center sits above the rail-center plane at height $h_{offset}$. Sphere–rail contact is external, so the distance from the sphere center to each rail center equals $R + r_{rail}$.
+**Step 1 — Cross-section geometry.** Looking along the track, the rail centers lie at $\pm s/2$ from the symmetry axis. The sphere center sits at height $h_{offset}$ above the rail-center plane. Sphere–rail contact is external, so the center-to-center distance equals $R + r_{rail}$.
 
 **Step 2 — Apply Pythagorean theorem:**
-
-The triangle formed by the sphere center, one rail center, and the midpoint between rails gives:
 
 $$(R + r_{rail})^2 = (s/2)^2 + h_{offset}^2$$
 
 $$\boxed{h_{offset} = \sqrt{(R + r_{rail})^2 - (s/2)^2}}$$
 
-The contact half-angle $\alpha$ (measured from vertical to the line from sphere center to contact point):
+The contact half-angle $\alpha$:
 
 $$\sin\alpha = \frac{s/2}{R + r_{rail}}, \qquad \cos\alpha = \frac{h_{offset}}{R + r_{rail}}$$
 
-**Step 3 — Identify the instantaneous axis of rotation.**
+**Step 3 — Identify the instant center of zero velocity (IC).**
 
-For rolling without slipping on two rails, the velocity at *each* contact point must be zero. The line connecting the two contact points is the **instantaneous axis of rotation**. This axis is parallel to the rails but offset *below* the sphere center by a perpendicular distance $r_{eff}$.
+For rolling without slipping at each rail, the velocity at both contact points is zero. The line connecting the two contact points is therefore the **IC axis**. The sphere center $G$ is at perpendicular distance $r_{eff}$ from this axis, where:
 
-The contact point on the sphere lies at radius $R$ from the sphere center, along the line from sphere center to rail center. Its perpendicular component (vertical, normal to direction of travel) is:
+$$\boxed{r_{eff} = R\cos\alpha = \frac{R \cdot h_{offset}}{R + r_{rail}}}$$
 
-$$r_{eff} = R\cos\alpha = \frac{R \cdot h_{offset}}{R + r_{rail}}$$
+**Step 4 — Rolling constraint from IC kinematics.**
 
-$$\boxed{r_{eff} = \frac{R \cdot h_{offset}}{R + r_{rail}}}$$
+Using $v_A = \omega \times r_A$ for a body rotating about the IC:
 
-**Step 4 — Modified rolling constraint.**
+$$v_G = \omega \cdot r_{eff} \quad\Rightarrow\quad \omega = \frac{v}{r_{eff}}$$
 
-The sphere translates at velocity $v$ along the track while rotating about the axis through the contact points. The no-slip condition requires:
+Since $r_{eff} < R$, the sphere spins *faster* than it would on a flat surface at the same translational speed.
 
-$$v = \omega \cdot r_{eff} \quad\Rightarrow\quad \omega = \frac{v}{r_{eff}}$$
+**Step 5 — Kinetic energy using IC form.**
 
-Note $r_{eff} < R$, so the sphere spins *faster* than it would on a flat surface for the same translational speed.
+From the equation sheet, $T = \tfrac{1}{2}I_{IC}\omega^2$. By the parallel axis theorem, $I_{IC} = I_G + m r_{eff}^2$, with $I_G = \tfrac{2}{5}mR^2$:
 
-**Step 5 — Modified kinetic energy.**
+$$I_{IC} = \tfrac{2}{5}mR^2 + m r_{eff}^2$$
 
-Substituting $\omega = v/r_{eff}$ and $I_G = \tfrac{2}{5}mR^2$ into $T = \tfrac{1}{2}mv^2 + \tfrac{1}{2}I_G\omega^2$:
+$$T = \tfrac{1}{2}\!\left[\tfrac{2}{5}mR^2 + m r_{eff}^2\right]\!\omega^2$$
 
-$$T = \tfrac{1}{2}mv^2 + \tfrac{1}{2}\!\left(\tfrac{2}{5}mR^2\right)\!\left(\tfrac{v}{r_{eff}}\right)^{\!2}$$
+Substituting $\omega = v/r_{eff}$:
 
 $$\boxed{T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\!\left(\frac{R}{r_{eff}}\right)^{\!2}\right] = \tfrac{1}{2}mv^2 \cdot KE_{factor}}$$
 
@@ -518,39 +528,35 @@ Implementation: `physics/energy.py:two_rail_height` (lines 47–126).
 
 **Setup:** Determine the critical ramp angle above which a rolling sphere on two rails will slip.
 
-**Step 1 — Newton's 2nd Law along the ramp (tangential):**
+**Step 1 — Newton's 2nd Law along the ramp (tangential).**
 
-For pure rolling at acceleration $a$ down a ramp at angle $\theta$:
+From the equation sheet: $\mathbf{F} = m\mathbf{a}_G$. Along the ramp:
 
-$$mg\sin\theta - f_s = ma$$
+$$mg\sin\theta - f_s = ma_G$$
 
-where $f_s$ is the static friction force.
+**Step 2 — Moment equation about the IC.**
 
-**Step 2 — Rotational equation about the center of mass:**
+From the equation sheet: $\sum M_{IC} = I_{IC}\alpha$. Friction at the contact point and the normal force both pass through the IC, so they create no moment. Only gravity (acting at $G$, perpendicular distance $r_{eff}$ from the IC) contributes:
 
-$$\sum M_G = I_G\alpha \quad\Rightarrow\quad f_s \cdot r_{eff} = I_G\alpha$$
+$$mg\sin\theta \cdot r_{eff} = I_{IC}\alpha$$
 
-With rolling constraint $a = \alpha r_{eff}$ and $I_G = \tfrac{2}{5}mR^2$:
+Using $I_{IC} = I_G + m r_{eff}^2 = \tfrac{2}{5}mR^2 + m r_{eff}^2$ and rolling constraint $a_G = \alpha r_{eff}$:
 
-$$f_s = \frac{I_G a}{r_{eff}^2} = \frac{2mR^2 a}{5\,r_{eff}^2}$$
+$$a_G = \frac{mg\sin\theta \cdot r_{eff}^2}{I_{IC}} = \frac{g\sin\theta}{1 + \tfrac{2}{5}(R/r_{eff})^2} = \frac{g\sin\theta}{KE_{factor}}$$
 
-**Step 3 — Solve simultaneously for $a$ and $f_s$.**
+**Step 3 — Solve for required static friction.**
 
-Substituting into the tangential equation:
+From Step 1:
 
-$$a = \frac{g\sin\theta}{1 + \tfrac{2}{5}(R/r_{eff})^2} = \frac{g\sin\theta}{KE_{factor}}$$
+$$f_s = mg\sin\theta - ma_G = mg\sin\theta\!\left(\frac{KE_{factor}-1}{KE_{factor}}\right)$$
 
-$$f_s = \frac{(KE_{factor} - 1)\,mg\sin\theta}{KE_{factor}}$$
+**Step 4 — Apply no-slip condition $f_s \leq \mu_s N$ where $N = mg\cos\theta$:**
 
-**Step 4 — Apply no-slip condition $|f_s| \leq \mu_s N$ where $N = mg\cos\theta$:**
+$$\tan\theta \leq \mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}$$
 
-$$\frac{(KE_{factor} - 1)\,mg\sin\theta}{KE_{factor}} \leq \mu_s\,mg\cos\theta$$
+**For a flat-surface rolling sphere** ($KE_{factor} = 7/5$, so $(KE_{factor}-1)/KE_{factor} = 2/7$):
 
-$$\tan\theta \leq \frac{\mu_s\,KE_{factor}}{KE_{factor} - 1}$$
-
-**For a flat-surface rolling sphere** ($KE_{factor} = 1.4$, so $(KE_{factor}-1)/KE_{factor} = 2/7$):
-
-$$\boxed{\mu_s \geq \tfrac{2}{7}\tan\theta \quad\Leftrightarrow\quad \theta \leq \arctan\!\left(\tfrac{7\mu_s}{2}\right)}$$
+$$\boxed{\mu_s \geq \tfrac{2}{7}\tan\theta \quad\Leftrightarrow\quad \theta_{crit} = \arctan\!\left(\tfrac{7\mu_s}{2}\right)}$$
 
 **Step 5 — Numerical critical angle.**
 
@@ -558,9 +564,9 @@ With $\mu_s = 0.213$ from the friction test:
 
 $$\theta_{crit} = \arctan(0.7455) = 36.7°$$
 
-**Step 6 — Slip energy loss when $\theta > \theta_{crit}$:**
+**Step 6 — Slip energy loss when $\theta > \theta_{crit}$.**
 
-Once slipping, kinetic friction does work along the ramp:
+Once slipping, kinetic friction does work along the ramp. From the equation sheet, $U = \int \mathbf{F}\cdot d\mathbf{r}$:
 
 $$\boxed{W_{slip} = \mu_k\,mg\cos\theta \cdot L_{ramp} = \mu_k\,mg \cdot \frac{h_{release}}{\tan\theta}}$$
 
