@@ -345,6 +345,229 @@ Use this format when citing code in the memo prose:
 
 ---
 
+## Section 4: Full Derivations (Copy Directly into Appendix)
+
+These are the complete first-principles derivations the rubric's "equation development in appendix" (30 points) requires. Each subsection corresponds to an appendix entry from §3C.
+
+---
+
+### 4A. Frictionless Sliding Block (Reference Case 1)
+
+**Setup:** Block of mass $m$ released from rest at height $h$ above the bottom of a vertical circular loop of radius $R$. No friction, no rotation.
+
+**Step 1 — Apply work–energy theorem from release to top of loop:**
+
+$$T_1 + V_1 = T_2 + V_2$$
+
+With $T_1 = 0$ (released from rest), $V_1 = mgh$, $V_2 = mg(2R)$, $T_2 = \tfrac{1}{2}mv_{top}^2$:
+
+$$mgh = mg(2R) + \tfrac{1}{2}mv_{top}^2 \tag{1}$$
+
+**Step 2 — Apply Newton's 2nd Law (radial) at top of loop:**
+
+At the top, both weight $mg$ and normal force $N$ point toward the loop center:
+
+$$\sum F_n = ma_n \quad\Rightarrow\quad N + mg = \frac{mv_{top}^2}{R}$$
+
+**Step 3 — Apply critical condition $N = 0$:**
+
+$$mg = \frac{mv_{top}^2}{R} \quad\Rightarrow\quad v_{top}^2 = gR \tag{2}$$
+
+**Step 4 — Substitute (2) into (1) and solve:**
+
+$$mgh = 2mgR + \tfrac{1}{2}m(gR)$$
+
+$$h = 2R + \tfrac{1}{2}R$$
+
+$$\boxed{h_{min} = \tfrac{5}{2}R}$$
+
+---
+
+### 4B. Sphere Rolling Without Slipping on Flat Surface (Reference Case 2)
+
+**Setup:** Solid sphere of mass $m$, radius $r$ rolling without slipping. Loop radius $R$. Treat ball center as following the loop ($R \gg r$).
+
+**Step 1 — Total kinetic energy includes rotation:**
+
+$$T = \tfrac{1}{2}mv_G^2 + \tfrac{1}{2}I_G\omega^2$$
+
+For a solid sphere $I_G = \tfrac{2}{5}mr^2$. Rolling constraint on a flat surface: $\omega = v/r$, so:
+
+$$T = \tfrac{1}{2}mv^2 + \tfrac{1}{2}\!\left(\tfrac{2}{5}mr^2\right)\!\left(\tfrac{v}{r}\right)^{\!2} = \tfrac{1}{2}mv^2 + \tfrac{1}{5}mv^2 = \tfrac{7}{10}mv^2 \tag{3}$$
+
+**Step 2 — Energy conservation:**
+
+$$mgh = mg(2R) + \tfrac{7}{10}mv_{top}^2 \tag{4}$$
+
+**Step 3 — Critical condition (radial force balance is unchanged by rotation):**
+
+$$v_{top}^2 = gR \tag{5}$$
+
+**Step 4 — Substitute (5) into (4) and solve:**
+
+$$mgh = 2mgR + \tfrac{7}{10}m(gR)$$
+
+$$h = 2R + \tfrac{7}{10}R$$
+
+$$\boxed{h_{min} = \tfrac{27}{10}R}$$
+
+---
+
+### 4C. Two-Rail Contact Geometry (Bachman 1985)
+
+**Setup:** Solid sphere of radius $R$ rests on two parallel cylindrical rails, each of radius $r_{rail}$, with center-to-center spacing $s$.
+
+**Step 1 — Cross-section geometry.** Looking along the track direction, the rail centers lie a distance $s/2$ on either side of the symmetry axis. The sphere center sits above the rail-center plane at height $h_{offset}$. Sphere–rail contact is external, so the distance from the sphere center to each rail center equals $R + r_{rail}$.
+
+**Step 2 — Apply Pythagorean theorem:**
+
+The triangle formed by the sphere center, one rail center, and the midpoint between rails gives:
+
+$$(R + r_{rail})^2 = (s/2)^2 + h_{offset}^2$$
+
+$$\boxed{h_{offset} = \sqrt{(R + r_{rail})^2 - (s/2)^2}}$$
+
+The contact half-angle $\alpha$ (measured from vertical to the line from sphere center to contact point):
+
+$$\sin\alpha = \frac{s/2}{R + r_{rail}}, \qquad \cos\alpha = \frac{h_{offset}}{R + r_{rail}}$$
+
+**Step 3 — Identify the instantaneous axis of rotation.**
+
+For rolling without slipping on two rails, the velocity at *each* contact point must be zero. The line connecting the two contact points is the **instantaneous axis of rotation**. This axis is parallel to the rails but offset *below* the sphere center by a perpendicular distance $r_{eff}$.
+
+The contact point on the sphere lies at radius $R$ from the sphere center, along the line from sphere center to rail center. Its perpendicular component (vertical, normal to direction of travel) is:
+
+$$r_{eff} = R\cos\alpha = \frac{R \cdot h_{offset}}{R + r_{rail}}$$
+
+$$\boxed{r_{eff} = \frac{R \cdot h_{offset}}{R + r_{rail}}}$$
+
+**Step 4 — Modified rolling constraint.**
+
+The sphere translates at velocity $v$ along the track while rotating about the axis through the contact points. The no-slip condition requires:
+
+$$v = \omega \cdot r_{eff} \quad\Rightarrow\quad \omega = \frac{v}{r_{eff}}$$
+
+Note $r_{eff} < R$, so the sphere spins *faster* than it would on a flat surface for the same translational speed.
+
+**Step 5 — Modified kinetic energy.**
+
+Substituting $\omega = v/r_{eff}$ and $I_G = \tfrac{2}{5}mR^2$ into $T = \tfrac{1}{2}mv^2 + \tfrac{1}{2}I_G\omega^2$:
+
+$$T = \tfrac{1}{2}mv^2 + \tfrac{1}{2}\!\left(\tfrac{2}{5}mR^2\right)\!\left(\tfrac{v}{r_{eff}}\right)^{\!2}$$
+
+$$\boxed{T = \tfrac{1}{2}mv^2\left[1 + \tfrac{2}{5}\!\left(\frac{R}{r_{eff}}\right)^{\!2}\right] = \tfrac{1}{2}mv^2 \cdot KE_{factor}}$$
+
+For our balls: $KE_{factor}$ ranges from 1.89 (rubber) to 2.24 (steel), versus 1.4 on a flat surface.
+
+---
+
+### 4D. Full Energy Balance with Losses (Our Model)
+
+**Setup:** Sphere of mass $m$ on two rails, released from height $h_{release}$ above the bottom of the loop. Loop has rail-centerline radius $R_{loop}$. Ramp at angle $\theta$. Ball-center path radius in loop: $R_c = R_{loop} - h_{offset}$.
+
+**Step 1 — Identify all terms.**
+
+Heights (CM positions relative to bottom of loop track surface):
+- Release: $y_{cm,1} = h_{release} + h_{offset}\cos\theta$
+- Loop top: $y_{cm,2} = 2R_{loop} - h_{offset}$
+
+Kinetic energies:
+- Release: $T_1 = 0$ (from rest)
+- Loop top: $T_2 = \tfrac{1}{2}mv_{top}^2 \cdot KE_{factor}$
+
+Non-conservative work (energy dissipated):
+- Ramp rolling resistance: $W_{ramp} = C_{rr}\,mg\,h_{release}/\tan\theta$
+- Loop rolling resistance: $W_{loop} = C_{rr} \cdot 3mg \cdot 2\pi R_c$ (using $N_{avg} \approx 3mg$)
+- Transition jerk loss: $W_{trans} = f_{trans}\,mg\,[h_{release} - h_{offset}(1-\cos\theta)]$
+
+**Step 2 — Apply work–energy theorem.**
+
+$$T_1 + V_1 = T_2 + V_2 + W_{ramp} + W_{loop} + W_{trans}$$
+
+$$mg\,y_{cm,1} = mg\,y_{cm,2} + \tfrac{1}{2}mv_{top}^2\,KE_{factor} + W_{losses}$$
+
+**Step 3 — Apply critical condition (radial force balance at loop top).**
+
+At the top, both gravity and normal force point toward loop center:
+
+$$N + mg = \frac{mv_{top}^2}{R_c}$$
+
+Setting $N = 0$:
+
+$$\boxed{v_{top}^2 = gR_c}$$
+
+**Step 4 — Substitute and expand.**
+
+$$mg\,[h_{release} + h_{offset}\cos\theta] = mg[2R_{loop} - h_{offset}] + \tfrac{1}{2}m(gR_c)KE_{factor} + W_{ramp} + W_{loop} + W_{trans}$$
+
+**Step 5 — Collect $h_{release}$ terms (it appears on both sides through $W_{ramp}$ and $W_{trans}$).**
+
+Move all $h_{release}$-containing terms to the left:
+
+$$mg\,h_{release}\left[1 - \frac{C_{rr}}{\tan\theta} - f_{trans}\right] = mg\!\left[2R_{loop} - h_{offset}(1+\cos\theta)\right] + \tfrac{1}{2}m(gR_c)KE_{factor} + W_{loop} - f_{trans}\,mg\,h_{offset}(1-\cos\theta)$$
+
+**Step 6 — Solve algebraically:**
+
+$$\boxed{h_{release} = \frac{2R_{loop} - h_{offset}(1+\cos\theta) + \tfrac{R_c}{2}KE_{factor} + \tfrac{2\pi C_{rr} R_c \cdot 3}{1} - f_{trans}\,h_{offset}(1-\cos\theta)}{1 - \dfrac{C_{rr}}{\tan\theta} - f_{trans}}}$$
+
+Implementation: `physics/energy.py:two_rail_height` (lines 47–126).
+
+---
+
+### 4E. Slip Regime Correction (Post-Competition)
+
+**Setup:** Determine the critical ramp angle above which a rolling sphere on two rails will slip.
+
+**Step 1 — Newton's 2nd Law along the ramp (tangential):**
+
+For pure rolling at acceleration $a$ down a ramp at angle $\theta$:
+
+$$mg\sin\theta - f_s = ma$$
+
+where $f_s$ is the static friction force.
+
+**Step 2 — Rotational equation about the center of mass:**
+
+$$\sum M_G = I_G\alpha \quad\Rightarrow\quad f_s \cdot r_{eff} = I_G\alpha$$
+
+With rolling constraint $a = \alpha r_{eff}$ and $I_G = \tfrac{2}{5}mR^2$:
+
+$$f_s = \frac{I_G a}{r_{eff}^2} = \frac{2mR^2 a}{5\,r_{eff}^2}$$
+
+**Step 3 — Solve simultaneously for $a$ and $f_s$.**
+
+Substituting into the tangential equation:
+
+$$a = \frac{g\sin\theta}{1 + \tfrac{2}{5}(R/r_{eff})^2} = \frac{g\sin\theta}{KE_{factor}}$$
+
+$$f_s = \frac{(KE_{factor} - 1)\,mg\sin\theta}{KE_{factor}}$$
+
+**Step 4 — Apply no-slip condition $|f_s| \leq \mu_s N$ where $N = mg\cos\theta$:**
+
+$$\frac{(KE_{factor} - 1)\,mg\sin\theta}{KE_{factor}} \leq \mu_s\,mg\cos\theta$$
+
+$$\tan\theta \leq \frac{\mu_s\,KE_{factor}}{KE_{factor} - 1}$$
+
+**For a flat-surface rolling sphere** ($KE_{factor} = 1.4$, so $(KE_{factor}-1)/KE_{factor} = 2/7$):
+
+$$\boxed{\mu_s \geq \tfrac{2}{7}\tan\theta \quad\Leftrightarrow\quad \theta \leq \arctan\!\left(\tfrac{7\mu_s}{2}\right)}$$
+
+**Step 5 — Numerical critical angle.**
+
+With $\mu_s = 0.213$ from the friction test:
+
+$$\theta_{crit} = \arctan(0.7455) = 36.7°$$
+
+**Step 6 — Slip energy loss when $\theta > \theta_{crit}$:**
+
+Once slipping, kinetic friction does work along the ramp:
+
+$$\boxed{W_{slip} = \mu_k\,mg\cos\theta \cdot L_{ramp} = \mu_k\,mg \cdot \frac{h_{release}}{\tan\theta}}$$
+
+This term replaces $W_{ramp}$ in the energy balance when slip occurs. At the competition $\theta = 56° > 36.7°$, so steel and plastic slip — accounting for the model's underprediction.
+
+---
+
 ## References
 
 - Bachman, R. A. (1985). "Sphere rolling down a grooved track." *American Journal of Physics*, 53(8), 765.
