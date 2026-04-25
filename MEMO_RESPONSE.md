@@ -124,21 +124,25 @@ $$\boxed{h_{min} = \tfrac{27}{10}R}$$
 
 ### 2A. Competition Results
 
-**Inputs:** $R_{loop} = 4.75$ in, $\theta = 56°$
+**Inputs:** $R_{loop} = 4.75$ in, $\theta = 56°$ (Loop Radius Measured To: Inside surface of rails)
 
-| Ball | Our Prediction (in) | Actual (in) | Error (in) |
-|---|---|---|---|
-| Steel | ~14.5 | **31.0** | $-16.5$ |
-| Plastic | ~14.9 | **28.75** | $-13.9$ |
-| Rubber | ~17.0 | **20.0** | $-3.0$ |
+**Tool settings used:** Transition Loss Fraction = 0.05, default $C_{rr}$ values (Steel = 0.002, Plastic = 0.015, Rubber = 0.08), safety margin added on top of model output before submission.
 
-We **systematically underpredicted** for steel and plastic but were within ~3 in for rubber. This asymmetric error pattern is itself a diagnostic — it points to a specific physics regime our model failed to capture, rather than random tuning error.
+| Ball | Model $h_{min}$ (in) | Submitted (in) | Actual Minimum (in) | Result |
+|---|---|---|---|---|
+| Steel | 16.0 | **16.7** | 31.0 | **FAILED** — submitted $-14.3$ in below actual minimum |
+| Plastic | 16.7 | **17.4** | 28.75 | **FAILED** — submitted $-11.4$ in below actual minimum |
+| Rubber | 23.2 | **24.0** | 20.0 | **SUCCESS** — submitted $+4.0$ in above actual minimum |
+
+Steel and plastic submissions fell far below the actual minimum heights; rubber overshot the minimum by 4 in. The asymmetric error points to two distinct physics issues.
 
 ---
 
 ### 2B. Why Our Model Was Wrong
 
-#### Primary Cause — Violation of the Rolling-Without-Slipping Assumption at $\theta = 56°$
+The error pattern divides into two distinct physics issues — one for the hard balls (steel and plastic), and one for the soft ball (rubber).
+
+#### Issue 1 — Steel and Plastic: Violation of the Rolling-Without-Slipping Assumption at $\theta = 56°$
 
 The friction test indicated:
 
@@ -154,20 +158,22 @@ $$\theta_{crit} = \arctan\!\left(\tfrac{7\mu_s}{2}\right) \approx 37°$$
 
 **At $\theta = 56°$, steel and plastic exceeded this critical angle and SLIPPED on the ramp instead of pure-rolling.**
 
-Our model assumes static friction does no work — a foundational result of rolling without slipping. Once the ball slips, *kinetic* friction takes over and dissipates energy as:
+Our model assumes static friction does no work — a foundational consequence of rolling without slipping. Once the ball slips, *kinetic* friction takes over and dissipates energy as:
 
-$$W_{slip} = \mu_k mg\cos\theta \cdot L_{ramp}$$
+$$W_{slip} = \mu_k\, mg\cos\theta \cdot L_{ramp}$$
 
-For a 31-in ramp at 56°, this energy loss is approximately **30% of the gravitational potential energy** — exactly the magnitude needed to explain the 16-in shortfall.
+This single missing physics regime explains the underprediction: the 12–15 in shortfall is consistent with substantial kinetic-friction work along the ramp combined with amplified transition losses at the steep 56° entry.
 
-#### Why Rubber Was Close
+#### Issue 2 — Rubber: Overestimated Rolling Resistance
 
-Rubber did not slip in the friction test (it tipped first, indicating $\mu_{rubber} > 0.213$), so the slip threshold was not exceeded at 56°. Additionally, our $C_{rr} = 0.08$ for rubber (chosen to capture viscoelastic hysteresis) coincidentally absorbed the residual losses (transition shock, vibration, micro-impacts) that other physics terms could not account for individually.
+Rubber did **not** slip in the friction test (it tipped first, indicating $\mu_{rubber} > 0.213$), so the slip threshold was not exceeded at 56°. Pure rolling held throughout. However, our model **overpredicted by 3.2 in**, indicating we used too large a rolling-resistance coefficient.
 
-#### Secondary Contributors
+We chose $C_{rr} = 0.08$ from literature values for rubber-on-concrete (which has rough surfaces). The actual track has smooth steel rails, so the real rubber rolling resistance is lower. Back-solving from the experimental result, the effective $C_{rr}$ on this track is closer to **0.04–0.05**, roughly half the literature value.
 
-1. **Ramp-to-loop transition (jerk) losses** scale strongly with entry angle. At 56°, the angular discontinuity is severe; Wang et al. (2021) show such transitions can dissipate up to 20% of KE — far more than the 5% default we used.
-2. **Speed-dependent rolling resistance**, particularly for rubber, increases 10–30% at the higher speeds reached on a steep ramp.
+#### Secondary Contributors (Both Cases)
+
+1. **Ramp-to-loop transition (jerk) losses** scale strongly with entry angle. At 56°, the angular discontinuity is severe; Wang et al. (2021) show such transitions can dissipate up to 20% of KE — far more than the 5% default we used. This compounds the steel/plastic underprediction.
+2. **Effective kinetic friction may exceed the static value.** Reconciling the steel result requires an effective dissipation factor near $\mu \approx 0.5$–$0.7$, much higher than the static slip angle of 0.213 suggests. This indicates the friction test (two stacked balls) does not capture the full kinetic dissipation under actual rolling-with-slip conditions on the rails.
 3. **Track imperfections, micro-bouncing, and ball–rail vibrations** are real mechanical losses our continuum model cannot capture.
 
 ---
