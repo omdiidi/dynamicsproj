@@ -6,7 +6,6 @@ Dynamics principles: This file contains the given physical parameters
 for the three test spheres and the track geometry. Heights are measured
 relative to the bottom of the loop (the competition datum).
 """
-import numpy as np
 from dataclasses import dataclass
 
 G = 9.81  # m/s^2, gravitational acceleration

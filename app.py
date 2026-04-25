@@ -20,9 +20,8 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 from physics.constants import BALLS, G, RAIL_RADIUS, INCHES_TO_METERS, METERS_TO_INCHES
-from physics.geometry import compute_contact_geometry, compute_effective_loop_radius
-from physics.energy import (frictionless_block_height, flat_rolling_height,
-                            two_rail_height, compute_all_predictions, compute_waterfall)
+from physics.geometry import compute_contact_geometry
+from physics.energy import (two_rail_height, compute_all_predictions, compute_waterfall)
 from physics.ode_model import simulate
 
 # ============================================================

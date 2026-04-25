@@ -17,7 +17,6 @@ Dynamics principles:
 import numpy as np
 from scipy.integrate import solve_ivp
 from .constants import G
-from .geometry import compute_contact_geometry, compute_effective_loop_radius
 
 
 def build_track(R_loop: float, theta_deg: float, h_release: float,
