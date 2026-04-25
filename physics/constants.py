@@ -31,6 +31,7 @@ METERS_TO_INCHES = 1 / INCHES_TO_METERS
 
 @dataclass
 class BallProperties:
+    """Physical and modeling properties for one of the three test spheres."""
     name: str
     mass_kg: float
     radius_m: float

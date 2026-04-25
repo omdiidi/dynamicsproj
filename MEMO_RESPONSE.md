@@ -212,6 +212,139 @@ It performs well within the rolling regime ($\theta < 37°$ for steel/plastic). 
 
 ---
 
+## Section 3: Code Citations & Appendix Structure (Person 4)
+
+This section maps every claim in the memo to the specific code that implements it. Use these citations when writing the memo body so each physics statement has a verifiable code location. The appendix should reproduce these files in full, organized in the order below.
+
+### 3A. File Inventory
+
+| File | Lines | Purpose |
+|---|---|---|
+| `physics/constants.py` | 66 | Ball masses, radii; rail geometry; unit conversions |
+| `physics/geometry.py` | 81 | Two-rail contact geometry (Bachman 1985) |
+| `physics/energy.py` | 293 | Analytical energy-balance solver + waterfall breakdown |
+| `physics/ode_model.py` | 200 | scipy `solve_ivp` simulation with event detection |
+| `app.py` | 511 | Streamlit UI, plots, animation, predictions table |
+| `physics/__init__.py` | 6 | Package exports |
+| **Total** | **1157** | |
+
+### 3B. Memo Section → Code Citation Map
+
+#### Section 1A — Foundational Principles
+| Equation | Code Location |
+|---|---|
+| $G = 9.81$ m/s² | `physics/constants.py:12` |
+| Solid sphere $I_G = \tfrac{2}{5}mR^2$ | `physics/geometry.py:62` (used in `beta = (2/5)(R/r_eff)^2`) |
+| $T = \tfrac{1}{2}mv^2 \cdot KE_{factor}$ | `physics/geometry.py:65` |
+| Critical condition $v_{top}^2 = gR_c$ | `physics/energy.py:81` |
+
+#### Section 1B Correction 1 — Two-Rail Effective Rolling Radius
+| Quantity | Code Location |
+|---|---|
+| $h_{offset} = \sqrt{(R+r_{rail})^2 - (s/2)^2}$ | `physics/geometry.py:55` |
+| $r_{eff} = R \cdot h_{offset}/(R+r_{rail})$ | `physics/geometry.py:59` |
+| $\beta = \tfrac{2}{5}(R/r_{eff})^2$ | `physics/geometry.py:62` |
+| KE multiplier $1 + \beta$ | `physics/geometry.py:65` (returned as `KE_factor`) |
+| Function: `compute_contact_geometry()` | `physics/geometry.py:20-72` |
+
+#### Section 1B Correction 2 — CM Path Radius
+| Quantity | Code Location |
+|---|---|
+| $R_c = R_{loop} - h_{offset}$ | `physics/geometry.py:74-81` (function `compute_effective_loop_radius`) |
+| Used in solver: `R_c = compute_effective_loop_radius(...)` | `physics/energy.py:73` |
+
+#### Section 1B Correction 3 — Non-Conservative Work
+| Quantity | Code Location |
+|---|---|
+| $W_{loop} = C_{rr} \cdot 3mg \cdot 2\pi R_c$ | `physics/energy.py:89` |
+| $W_{ramp} = C_{rr}\,mg\,h/\tan\theta$ | `physics/energy.py:104` (in `lhs_coefficient`) |
+| $W_{trans} = f_{trans} \cdot T_{entry}$ | `physics/energy.py:104` (in `lhs_coefficient`) |
+| Algebraic solve for $h_{release}$ | `physics/energy.py:100-109` |
+
+#### Section 1C — Reference Cases
+| Case | Code Location |
+|---|---|
+| Frictionless block: $h = \tfrac{5}{2}R$ | `physics/energy.py:24-33` (function `frictionless_block_height`) |
+| Rolling on flat: $h = \tfrac{27}{10}R$ | `physics/energy.py:35-44` (function `flat_rolling_height`) |
+
+#### Section 1D — Waterfall Breakdown
+| Step | Code Location |
+|---|---|
+| All 6 waterfall steps | `physics/energy.py:163-292` (function `compute_waterfall`) |
+| Step 1 (frictionless block) | `physics/energy.py:188-200` |
+| Step 2 (rolling on flat) | `physics/energy.py:202-214` |
+| Step 3 (two-rail correction) | `physics/energy.py:216-230` |
+| Step 4 (rolling resistance) | `physics/energy.py:232-249` |
+| Step 5 (transition loss) | `physics/energy.py:251-271` |
+| Step 6 (safety margin) | `physics/energy.py:273-285` |
+| LaTeX equations rendered in UI | each step's `"latex"` field |
+
+#### Section 2 — ODE Validation Model
+| Component | Code Location |
+|---|---|
+| Track parameterization (ramp + loop) | `physics/ode_model.py:23-73` (function `build_track`) |
+| Equations of motion (Newton's 2nd Law) | `physics/ode_model.py:96-130` (function `ode` inside `simulate`) |
+| Normal force in loop: $N = mv^2/R_c + mg\cos\phi$ | `physics/ode_model.py:117` |
+| Event: ball detaches ($N \le 0$) | `physics/ode_model.py:135-145` (function `ball_leaves_track`) |
+| Event: ball stalls ($v \approx 0$) | `physics/ode_model.py:147-156` (function `ball_stalls`) |
+| Event: loop completes | `physics/ode_model.py:158-163` (function `loop_complete`) |
+| `solve_ivp` integration | `physics/ode_model.py:170-176` |
+
+### 3C. Suggested Appendix Structure
+
+```
+APPENDIX
+├── Cover Sheet
+│   └── Table of Contents (this list)
+├── A.1 Reference Case Derivations
+│   ├── Frictionless sliding block (full derivation, h = 5R/2)
+│   └── Rolling sphere on flat surface (full derivation, h = 27R/10)
+├── A.2 Two-Rail Geometry Derivation (Bachman 1985)
+│   ├── Contact geometry diagram
+│   ├── Derivation of h_offset, r_eff, KE_factor
+│   └── Numerical values per ball
+├── A.3 Full Energy Balance Derivation (Our Model)
+│   ├── Energy conservation with non-conservative work
+│   ├── Algebraic solve for h_release
+│   └── Waterfall breakdown (6 steps with deltas)
+├── A.4 Comparison Table at R = 5 in, θ = 20° and 50°
+├── A.5 Slip-Regime Correction (post-competition analysis)
+│   ├── Critical angle derivation: θ_crit = arctan(7μ_s/2)
+│   └── Kinetic friction work formula
+├── A.6 Source Code (in this order)
+│   ├── physics/constants.py     (66 lines)
+│   ├── physics/geometry.py      (81 lines)
+│   ├── physics/energy.py        (293 lines)
+│   ├── physics/ode_model.py     (200 lines)
+│   ├── physics/__init__.py      (6 lines)
+│   └── app.py                   (511 lines)
+└── A.7 References
+```
+
+### 3D. Code Quality Verification Checklist
+
+| Requirement (from project description) | Status |
+|---|---|
+| Code in Python or MATLAB | ✓ Python 3 |
+| Well-organized | ✓ Modular: `physics/` package + `app.py` UI |
+| Comments explaining each segment | ✓ Every function has docstring; key equations commented |
+| README at beginning of code | ✓ See `README.md` (top-level) |
+| Description of how code was developed | ✓ README "How This Code Was Developed" section |
+| Principles of dynamics utilized | ✓ README "Dynamics Principles Used" + class equation table |
+| Instructions on how to run | ✓ README "How to Run" (local + Render deployment) |
+
+### 3E. Code Citations Format for the Memo Body
+
+Use this format when citing code in the memo prose:
+
+> "The two-rail effective rolling radius (Bachman 1985) is implemented in `physics/geometry.py:compute_contact_geometry` (lines 20–72), where `h_offset` and `r_eff` are derived from the rail spacing and ball radius."
+
+> "The energy balance is solved in closed form by `physics/energy.py:two_rail_height` (lines 47–126), with the algebraic rearrangement on lines 100–109."
+
+> "Validation by ODE simulation is in `physics/ode_model.py:simulate` (lines 76–200), using `scipy.integrate.solve_ivp` with three terminal events (track detachment, stall, loop completion)."
+
+---
+
 ## References
 
 - Bachman, R. A. (1985). "Sphere rolling down a grooved track." *American Journal of Physics*, 53(8), 765.
