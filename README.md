@@ -41,15 +41,26 @@ streamlit run app.py
 Push to GitHub, connect repo in Render dashboard. The render.yaml configures
 deployment automatically.
 
-## File Structure
+## Repository Structure
 
-- `app.py` - Streamlit dashboard (main entry point)
-- `physics/constants.py` - Ball data, rail geometry, unit conversions
-- `physics/geometry.py` - Two-rail contact geometry (Bachman 1985)
-- `physics/energy.py` - Analytical energy-balance solver + waterfall breakdown
-- `physics/ode_model.py` - ODE simulation with scipy solve_ivp event detection
-- `.streamlit/config.toml` - Theme and server configuration
-- `render.yaml` - Render deployment blueprint
+```
+dynamics-claude/
+├── app.py                       Streamlit dashboard (main entry point)
+├── physics/                     Physics engine
+│   ├── constants.py             Ball data, rail geometry, unit conversions
+│   ├── geometry.py              Two-rail contact geometry (Bachman 1985)
+│   ├── energy.py                Analytical energy-balance solver + waterfall
+│   └── ode_model.py             scipy.solve_ivp simulation with events
+├── docs/
+│   ├── MEMO_RESPONSE.md         Memo writing reference (all four sections)
+│   ├── APPENDIX.md              Full appendix (TOC, derivations, code listings)
+│   └── project-info/            Original assignment materials (description,
+│                                template, equation sheet)
+├── .streamlit/config.toml       Streamlit theme + server config
+├── render.yaml                  Render deployment blueprint
+├── requirements.txt             Python dependencies
+└── README.md                    This file
+```
 
 ## Key Model Features
 
@@ -57,7 +68,7 @@ deployment automatically.
 
 The sphere rolls on two parallel 3mm-diameter cylindrical rails spaced 17mm apart (outside-to-outside, so center-to-center $s = 14$ mm). The effective rolling radius $r_{eff}$ is smaller than the ball radius $R$ because the contact points are elevated above the sphere's lowest point. The instant center of zero velocity lies along the line connecting the two contact points, at perpendicular distance $r_{eff}$ from the ball center. The rolling constraint becomes $\omega = v / r_{eff}$ instead of $v / R$, increasing the rotational kinetic energy fraction:
 
-$$T = \tfrac{1}{2} m v^2 \left[ 1 + \tfrac{2}{5}\!\left(\tfrac{R}{r_{eff}}\right)^{\!2} \right] = \tfrac{1}{2} m v^2 \cdot KE_{factor}$$
+$$T = \tfrac{1}{2} m v^2 \left[ 1 + \tfrac{2}{5} \left(\tfrac{R}{r_{eff}}\right)^{2} \right] = \tfrac{1}{2} m v^2 \cdot KE_{factor}$$
 
 For our balls, $KE_{factor}$ ranges from 1.89 (rubber) to 2.24 (steel), versus 1.4 on a flat surface — a 35–60% increase in required energy.
 
