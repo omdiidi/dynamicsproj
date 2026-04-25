@@ -9,12 +9,25 @@ generation, with all physics independently verified.
 
 ## Dynamics Principles Used
 
-1. **Work-Energy Theorem** - Energy conservation from release to loop top
-2. **Rotational Dynamics** - Rolling without slipping, moment of inertia I = 2/5 mR^2
-3. **Two-Rail Contact Geometry** - Effective rolling radius correction for spheres
-   on parallel cylindrical rails (Bachman 1985, Am. J. Phys. 53(8), 765)
-4. **Newton's Second Law (Radial)** - Centripetal condition at loop top: N=0 gives v^2=gR_c
-5. **Rolling Resistance** - Energy dissipation modeled with tunable C_rr per material
+1. **Work-Energy Theorem** — Energy conservation from release to loop top:
+
+$$T_1 + V_1 + U_{NC} = T_2 + V_2$$
+
+2. **Rotational Dynamics** — Rolling without slipping, kinetic energy via instant center (IC):
+
+$$T = \tfrac{1}{2} I_{IC}\, \omega^2, \qquad I_G = \tfrac{2}{5} m R^2$$
+
+3. **Two-Rail Contact Geometry** — Effective rolling radius correction (Bachman 1985, *Am. J. Phys.* 53(8), 765):
+
+$$r_{eff} = \frac{R \cdot h_{offset}}{R + r_{rail}}, \qquad h_{offset} = \sqrt{(R + r_{rail})^2 - (s/2)^2}$$
+
+4. **Newton's Second Law (Radial)** — Centripetal condition at loop top with $N = 0$:
+
+$$\sum F_n = m a_n = \frac{m v^2}{\rho} \quad\Longrightarrow\quad v_{top}^2 = g R_c$$
+
+5. **Rolling Resistance** — Energy dissipation as non-conservative work:
+
+$$U_{NC} = \int \mathbf{F} \cdot d\mathbf{r} = C_{rr} \int N\, ds$$
 
 ## How to Run
 
@@ -41,20 +54,23 @@ deployment automatically.
 ## Key Model Features
 
 ### Two-Rail Geometry Correction
-The sphere rolls on two parallel 3mm-diameter cylindrical rails spaced 17mm
-apart (outside-to-outside). The effective rolling radius r_eff is smaller than
-the ball radius R because the contact points are elevated above the sphere's
-lowest point. This causes the ball to spin faster for a given translational
-speed, requiring more energy (and thus more release height) than a flat surface.
+
+The sphere rolls on two parallel 3mm-diameter cylindrical rails spaced 17mm apart (outside-to-outside, so center-to-center $s = 14$ mm). The effective rolling radius $r_{eff}$ is smaller than the ball radius $R$ because the contact points are elevated above the sphere's lowest point. The instant center of zero velocity lies along the line connecting the two contact points, at perpendicular distance $r_{eff}$ from the ball center. The rolling constraint becomes $\omega = v / r_{eff}$ instead of $v / R$, increasing the rotational kinetic energy fraction:
+
+$$T = \tfrac{1}{2} m v^2 \left[ 1 + \tfrac{2}{5}\!\left(\tfrac{R}{r_{eff}}\right)^{\!2} \right] = \tfrac{1}{2} m v^2 \cdot KE_{factor}$$
+
+For our balls, $KE_{factor}$ ranges from 1.89 (rubber) to 2.24 (steel), versus 1.4 on a flat surface — a 35–60% increase in required energy.
 
 ### Waterfall Breakdown
+
 The prediction builds incrementally through 6 steps:
-1. Frictionless sliding block (h = 2.5R)
-2. Add rotational KE (h = 2.7R)
+
+1. Frictionless sliding block: $h = \tfrac{5}{2} R$
+2. Add rotational KE (flat surface): $h = \tfrac{27}{10} R$
 3. Two-rail geometry correction (biggest single factor)
-4. Rolling resistance
+4. Rolling resistance (ramp + loop)
 5. Transition losses at ramp-to-loop junction
-6. Safety margin
+6. Safety margin (rounded up to 0.1 in)
 
 ### ODE Simulation
 Validates the analytical prediction by numerically integrating the equations
@@ -66,13 +82,15 @@ The model uses these equations directly from the Dynamics Vocabulary sheet:
 
 | Class Equation | Application in Model |
 |---|---|
-| T = 1/2 mv^2_G + 1/2 I_G omega^2 | Total KE of rolling sphere (modified for two-rail r_eff) |
-| a_n = v^2/rho | Centripetal condition at loop top (rho = R_c) |
-| F = ma_G | Newton's 2nd law, radial direction in loop |
-| Sum M_G = I_G alpha | Torque equation derives rolling constraint |
-| I = integral r^2 dm | I_G = 2/5 mR^2 for solid sphere |
-| U = integral F . dr | Work done by rolling resistance along track |
-| T1 + V1 + U_NC = T2 + V2 | Energy balance with non-conservative losses |
+| $T = \tfrac{1}{2} m v_G^2 + \tfrac{1}{2} I_G \omega^2$ | Total KE of rolling sphere (modified for two-rail $r_{eff}$) |
+| $a_n = v^2 / \rho$ | Centripetal condition at loop top ($\rho = R_c$) |
+| $\mathbf{F} = m \mathbf{a}_G$ | Newton's 2nd law, radial direction in loop |
+| $\sum M_{IC} = I_{IC}\, \alpha$ | Moment equation about instant center (rolling) |
+| $I = \int r^2\, dm$ | $I_G = \tfrac{2}{5} m R^2$ for solid sphere |
+| $U = \int \mathbf{F} \cdot d\mathbf{r}$ | Work done by rolling resistance along track |
+| $T_1 + V_1 + U_{NC} = T_2 + V_2$ | Energy balance with non-conservative losses |
+| $I_A = I_G + m d^2$ | Parallel axis theorem ($I_{IC} = I_G + m\, r_{eff}^2$) |
+| $\mathbf{v}_A = \boldsymbol{\omega} \times \mathbf{r}_A$ | Rolling constraint via IC kinematics |
 
 Each equation is rendered in LaTeX in the app's "Dynamics Principles Applied" section
 and in the waterfall derivation expander.
