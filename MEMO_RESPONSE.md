@@ -148,15 +148,18 @@ The friction test indicated:
 
 $$\mu_s \approx \tan(12°) = 0.213 \quad\text{(for steel and plastic)}$$
 
-For a rolling sphere on an incline, the no-slip condition requires:
+For a rolling sphere with two-rail geometry, the no-slip condition (derived in §4E using $\sum M_{IC} = I_{IC}\alpha$) is:
 
-$$\mu_s \geq \tfrac{2}{7}\tan\theta$$
+$$\mu_s \geq \tan\theta \cdot \frac{KE_{factor} - 1}{KE_{factor}}$$
 
-Solving for the critical angle:
+Using each ball's actual $KE_{factor}$, the critical ramp angles are:
 
-$$\theta_{crit} = \arctan\!\left(\tfrac{7\mu_s}{2}\right) \approx 37°$$
+| Ball | $KE_{factor}$ | $\theta_{crit}$ at $\mu_s = 0.213$ |
+|---|---|---|
+| Steel | 2.241 | **21.0°** |
+| Plastic | 2.013 | **22.9°** |
 
-**At $\theta = 56°$, steel and plastic exceeded this critical angle and SLIPPED on the ramp instead of pure-rolling.**
+**At $\theta = 56°$, steel and plastic exceeded their critical angles by more than a factor of 2 and SLIPPED on the ramp instead of pure-rolling.** (Note: the flat-surface threshold of 36.7° from $\mu_s \geq \tfrac{2}{7}\tan\theta$ does NOT apply here because two-rail geometry changes $KE_{factor}$, lowering the critical angle.)
 
 Our model assumes static friction does no work — a foundational consequence of rolling without slipping. Once the ball slips, *kinetic* friction takes over and dissipates energy as:
 
@@ -166,7 +169,13 @@ This single missing physics regime explains the underprediction: the 12–15 in 
 
 #### Issue 2 — Rubber: Overestimated Rolling Resistance
 
-Rubber did **not** slip in the friction test (it tipped first, indicating $\mu_{rubber} > 0.213$), so the slip threshold was not exceeded at 56°. Pure rolling held throughout. However, our model **overpredicted by 3.2 in**, indicating we used too large a rolling-resistance coefficient.
+Rubber did **not** slip in the friction test (it tipped first, indicating $\mu_{rubber} > 0.213$). For rubber to avoid slipping at $\theta = 56°$ on two rails ($KE_{factor} = 1.888$), we need:
+
+$$\mu_{rubber} \geq \tan(56°) \cdot \frac{0.888}{1.888} = 0.697$$
+
+This is plausible for rubber on smooth steel, where typical static friction coefficients range from 0.5 to 1.0. The fact that rubber's actual minimum height (20 in) was *below* our prediction (23.2 in) — instead of well above as for steel/plastic — confirms that rubber stayed in pure rolling.
+
+The model **overpredicted by 3.2 in**, indicating we used too large a rolling-resistance coefficient.
 
 We chose $C_{rr} = 0.08$ from literature values for rubber-on-concrete (which has rough surfaces). The actual track has smooth steel rails, so the real rubber rolling resistance is lower. Back-solving from the experimental result, the effective $C_{rr}$ on this track is closer to **0.04–0.05**, roughly half the literature value.
 
@@ -552,17 +561,19 @@ $$f_s = mg\sin\theta - ma_G = mg\sin\theta\!\left(\frac{KE_{factor}-1}{KE_{facto
 
 **Step 4 — Apply no-slip condition $f_s \leq \mu_s N$ where $N = mg\cos\theta$:**
 
-$$\tan\theta \leq \mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}$$
+$$\boxed{\mu_s \geq \tan\theta \cdot \frac{KE_{factor} - 1}{KE_{factor}} \quad\Leftrightarrow\quad \theta_{crit} = \arctan\!\left(\mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}\right)}$$
 
-**For a flat-surface rolling sphere** ($KE_{factor} = 7/5$, so $(KE_{factor}-1)/KE_{factor} = 2/7$):
+For comparison, a flat-surface rolling sphere has $KE_{factor} = 7/5$, giving the textbook result $\mu_s \geq \tfrac{2}{7}\tan\theta$ with $\theta_{crit} \approx 37°$ at $\mu_s = 0.213$. Our two-rail geometry has a higher $KE_{factor}$, which **lowers** the critical angle.
 
-$$\boxed{\mu_s \geq \tfrac{2}{7}\tan\theta \quad\Leftrightarrow\quad \theta_{crit} = \arctan\!\left(\tfrac{7\mu_s}{2}\right)}$$
+**Step 5 — Numerical critical angles (per ball, with $\mu_s = 0.213$).**
 
-**Step 5 — Numerical critical angle.**
+| Ball | $KE_{factor}$ | $\theta_{crit}$ |
+|---|---|---|
+| Steel | 2.241 | 21.0° |
+| Plastic | 2.013 | 22.9° |
+| Rubber (if $\mu = 0.213$) | 1.888 | 24.4° |
 
-With $\mu_s = 0.213$ from the friction test:
-
-$$\theta_{crit} = \arctan(0.7455) = 36.7°$$
+For rubber not to slip at $\theta = 56°$, $\mu_{rubber}$ must satisfy $\mu_{rubber} \geq 0.697$ — plausible for rubber-on-steel.
 
 **Step 6 — Slip energy loss when $\theta > \theta_{crit}$.**
 

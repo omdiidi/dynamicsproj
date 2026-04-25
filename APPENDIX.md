@@ -237,17 +237,21 @@ $$f_s = mg\sin\theta - ma_G = mg\sin\theta\!\left(\frac{KE_{factor}-1}{KE_{facto
 
 **Step 4 — Apply no-slip condition $f_s \leq \mu_s N$ where $N = mg\cos\theta$:**
 
-$$\tan\theta \leq \mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}$$
+$$\boxed{\mu_s \geq \tan\theta \cdot \frac{KE_{factor} - 1}{KE_{factor}} \quad\Leftrightarrow\quad \theta_{crit} = \arctan\!\left(\mu_s \cdot \frac{KE_{factor}}{KE_{factor}-1}\right)}$$
 
-**For a flat-surface rolling sphere** ($KE_{factor} = 7/5$, ratio $= 7/2$):
+For comparison, a flat-surface rolling sphere has $KE_{factor} = 7/5$, giving the textbook $\mu_s \geq \tfrac{2}{7}\tan\theta$. Our two-rail geometry has a **higher** $KE_{factor}$, which **lowers** the critical angle.
 
-$$\boxed{\mu_s \geq \tfrac{2}{7}\tan\theta \quad\Leftrightarrow\quad \theta_{crit} = \arctan\!\left(\tfrac{7\mu_s}{2}\right)}$$
+**Step 5 — Numerical critical angles per ball.** Friction test: $\mu_s \approx \tan(12°) = 0.213$.
 
-**Step 5 — Numerical critical angle.** Friction test: $\mu_s \approx \tan(12°) = 0.213$.
+| Ball | $KE_{factor}$ | $\theta_{crit}$ at $\mu_s = 0.213$ |
+|---|---|---|
+| Steel | 2.241 | **21.0°** |
+| Plastic | 2.013 | **22.9°** |
+| Rubber (if $\mu_s = 0.213$) | 1.888 | **24.4°** |
 
-$$\theta_{crit} = \arctan(0.7455) = 36.7°$$
+For rubber not to slip at $\theta = 56°$, $\mu_{rubber}$ must satisfy $\mu_{rubber} \geq 0.697$ — plausible for rubber-on-steel.
 
-**Conclusion:** At competition $\theta = 56° > 36.7°$, steel and plastic SLIP on the ramp.
+**Conclusion:** At competition $\theta = 56°$, steel and plastic exceeded their critical angles by more than a factor of 2 and SLIPPED on the ramp.
 
 **Step 6 — Slip energy loss.** Once slipping, kinetic friction does work along the ramp ($U = \int \mathbf{F}\cdot d\mathbf{r}$):
 
