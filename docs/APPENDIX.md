@@ -209,9 +209,9 @@ Per project Section II requirement.
 |---|---|---|---|---|
 | Frictionless block | 12.50 | 12.50 | — | — |
 | Rolling on flat | 13.50 | 13.50 | — | — |
-| **Steel** (two-rail + losses) | 16.4 | 15.3 | +3.9 / +2.8 | +2.9 / +1.8 |
-| **Plastic** (two-rail + losses) | 17.4 | 16.1 | +4.9 / +3.6 | +3.9 / +2.6 |
-| **Rubber** (two-rail + losses) | 25.5 | 21.8 | +13.0 / +9.3 | +12.0 / +8.3 |
+| **Steel** (two-rail + losses) | 16.1 | 16.1 | +3.6 / +3.6 | +2.6 / +2.6 |
+| **Plastic** (two-rail + losses) | 17.3 | 16.8 | +4.8 / +4.3 | +3.8 / +3.3 |
+| **Rubber** (two-rail + losses) | 29.0 | 24.0 | +16.5 / +11.5 | +15.5 / +10.5 |
 
 **Drivers of the differences:**
 - The two-rail $r_{eff}$ correction alone adds 1.5–2 in for steel and plastic regardless of angle (raises rotational-energy fraction from 28.6% on flat to ~55% of total KE).

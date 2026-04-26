@@ -8,7 +8,19 @@
 
 ## Section 1: Model Framework and Comparison to the Rolling-Without-Slipping Reference
 
-### 1A. Our Model Framework
+### 1A-MEMO. Memo Body Paragraph (For Person 1 — Paste Into Word Template)
+
+> We modeled the loop-the-loop using the work–energy theorem with non-conservative work, $T_1 + V_1 + U_{NC} = T_2 + V_2$, combined with Newton's second law applied radially at the top of the loop, where the no-departure condition $v_{top}^2 = g R_c$ sets the minimum speed. Each ball is treated as a solid uniform sphere ($I_G = \tfrac{2}{5}mR^2$) rolling without slipping, so the total kinetic energy is written about the instant center using the parallel-axis theorem, $I_{IC} = I_G + m r_{eff}^2$ and $T = \tfrac{1}{2}I_{IC}\omega^2$ — the same instant-center method used in class.
+>
+> Three corrections were then layered onto this baseline. First, because the ball contacts two rails simultaneously instead of a flat surface, the effective rolling radius shrinks to $r_{eff} = R\,h_{offset}/(R + r_{rail})$, which raises the rotational share of kinetic energy and increases the required release height by 35–60% across the three balls. Second, the ball's center traces a smaller path than the rail surface inside the loop, so we used $R_c = R_{loop} - h_{offset}$ in the centripetal condition. Third, we accounted for non-conservative work — rolling resistance along the ramp and loop, plus a small transition loss at the ramp-to-loop junction.
+>
+> The model was implemented in Python and cross-validated against an independent ODE simulator (`scipy.solve_ivp` with event detection for track departure, stalling, and loop completion); the analytical and simulated minimum heights agreed to within 0.001 inch at every test point. Implementation, execution, and verification runs were assisted by Claude Code, with all physics derived from Hibbeler 15e and verified against Bachman (1985) independently.
+
+If the team prefers a tighter version (to match Persons 2 and 3's tone), drop the equations and keep the principle names — but the assignment line *"description of your model framework, **including the dynamics principles it applies**"* expects the principles to be named explicitly.
+
+---
+
+### 1A. Our Model Framework (Technical Reference — Source for Appendix)
 
 Our model is built on the following **foundational principles** from the ME 2030 Dynamics Vocabulary sheet:
 
@@ -108,9 +120,9 @@ $$\boxed{h_{min} = \tfrac{27}{10}R}$$
 |---|---|---|---|---|
 | Frictionless block | 12.50 | 12.50 | — | — |
 | Rolling (flat) | 13.50 | 13.50 | — | — |
-| **Our model — Steel** | 16.4 | 15.3 | +3.9 / +2.8 | +2.9 / +1.8 |
-| **Our model — Plastic** | 17.4 | 16.1 | +4.9 / +3.6 | +3.9 / +2.6 |
-| **Our model — Rubber** | 25.5 | 21.8 | +13.0 / +9.3 | +12.0 / +8.3 |
+| **Our model — Steel** | 16.1 | 16.1 | +3.6 / +3.6 | +2.6 / +2.6 |
+| **Our model — Plastic** | 17.3 | 16.8 | +4.8 / +4.3 | +3.8 / +3.3 |
+| **Our model — Rubber** | 29.0 | 24.0 | +16.5 / +11.5 | +15.5 / +10.5 |
 
 **Drivers of the Differences:**
 
@@ -128,11 +140,11 @@ $$\boxed{h_{min} = \tfrac{27}{10}R}$$
 
 **Tool settings used:** Transition Loss Fraction = 0.05, default $C_{rr}$ values (Steel = 0.002, Plastic = 0.015, Rubber = 0.08), safety margin added on top of model output before submission.
 
-| Ball | Model $h_{min}$ (in) | Submitted (in) | Actual Minimum (in) | Result |
+| Ball | Model $h_{min}$ (raw, in) | Submitted (raw + 0.7 in margin, rounded up, in) | Actual Minimum (in) | Result |
 |---|---|---|---|---|
-| Steel | 16.0 | **16.7** | 31.0 | **FAILED** — submitted $-14.3$ in below actual minimum |
-| Plastic | 16.7 | **17.4** | 28.75 | **FAILED** — submitted $-11.4$ in below actual minimum |
-| Rubber | 23.2 | **24.0** | 20.0 | **SUCCESS** — submitted $+4.0$ in above actual minimum |
+| Steel | 15.3 | **16.7** | 31.0 | **FAILED** — submitted $-14.3$ in below actual minimum |
+| Plastic | 15.9 | **17.4** | 28.75 | **FAILED** — submitted $-11.4$ in below actual minimum |
+| Rubber | 22.5 | **24.0** | 20.0 | **SUCCESS** — submitted $+4.0$ in above actual minimum |
 
 Steel and plastic submissions fell far below the actual minimum heights; rubber overshot the minimum by 4 in. The asymmetric error points to two distinct physics issues.
 
@@ -201,7 +213,7 @@ We chose $C_{rr} = 0.08$ from literature values for rubber-on-concrete (which ha
 
 ### 2D. The Correction (How We Would Fix the Model)
 
-Add a **slip-regime branch** to the energy balance. When $\tan\theta > 7\mu_s/2$, replace the rolling-resistance ramp term with kinetic-friction work:
+Add a **slip-regime branch** to the energy balance. When the two-rail no-slip criterion is violated — i.e. when $\tan\theta > \mu_s \cdot KE_{factor}/(KE_{factor}-1)$ for the relevant ball — replace the rolling-resistance ramp term with kinetic-friction work:
 
 $$W_{ramp,\,slip} = \mu_k\, mg\cos\theta \cdot L_{ramp}$$
 
@@ -217,7 +229,7 @@ Our model correctly applied:
 - the **centripetal critical condition** at the loop top, and
 - **non-conservative work** for rolling resistance and transition losses.
 
-It performs well within the rolling regime ($\theta < 37°$ for steel/plastic). The competition's steep 56° ramp pushed steel and plastic into the **slipping regime**, where kinetic friction dissipates substantial energy that our pure-rolling model ignored — accounting almost entirely for the underpredicted heights. Better calibration data (kinetic friction coefficients, a single test drop per ball, track surface properties) would have eliminated this gap.
+It performs well within the rolling regime — for our two-rail geometry, $\theta < 21°$ for steel and $\theta < 23°$ for plastic at $\mu_s = 0.213$. The competition's steep 56° ramp pushed steel and plastic well past these thresholds and into the **slipping regime**, where kinetic friction dissipates substantial energy that our pure-rolling model ignored — accounting almost entirely for the underpredicted heights. Better calibration data (kinetic friction coefficients, a single test drop per ball, track surface properties) would have eliminated this gap.
 
 ---
 
@@ -318,7 +330,7 @@ APPENDIX
 │   └── Waterfall breakdown (6 steps with deltas)
 ├── A.4 Comparison Table at R = 5 in, θ = 20° and 50°
 ├── A.5 Slip-Regime Correction (post-competition analysis)
-│   ├── Critical angle derivation: θ_crit = arctan(7μ_s/2)
+│   ├── Critical angle derivation: θ_crit = arctan(μ_s · KE_factor / (KE_factor − 1))
 │   └── Kinetic friction work formula
 ├── A.6 Source Code (in this order)
 │   ├── physics/constants.py     (66 lines)
@@ -586,7 +598,7 @@ Once slipping, kinetic friction does work along the ramp. From the equation shee
 
 $$\boxed{W_{slip} = \mu_k\,mg\cos\theta \cdot L_{ramp} = \mu_k\,mg \cdot \frac{h_{release}}{\tan\theta}}$$
 
-This term replaces $W_{ramp}$ in the energy balance when slip occurs. At the competition $\theta = 56° > 36.7°$, so steel and plastic slip — accounting for the model's underprediction.
+This term replaces $W_{ramp}$ in the energy balance when slip occurs. At the competition $\theta = 56°$ — well above steel's 21.0° threshold and plastic's 22.9° threshold — both balls slip, accounting for the model's underprediction.
 
 ---
 
